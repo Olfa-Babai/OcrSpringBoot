@@ -18,9 +18,10 @@ public class OcrService {
  
    public OcrResult ocr(MultipartFile file) throws IOException, TesseractException {
        File convFile = convert(file);
-       String text = tesseract.doOCR(convFile);
+       String text = tesseract.doOCR(convFile).trim();
        OcrResult ocrResult = new OcrResult();
        ocrResult.setResult(text);
+       System.out.println(text.indexOf("Ordonnance"));
        return ocrResult;
    }
  

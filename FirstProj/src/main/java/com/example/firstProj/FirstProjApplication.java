@@ -1,5 +1,6 @@
 package com.example.firstProj;
 
+import org.apache.log4j.BasicConfigurator;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import net.sourceforge.tess4j.Tesseract;
@@ -9,6 +10,7 @@ import org.springframework.context.annotation.Bean;
 public class FirstProjApplication {
 
 	public static void main(String[] args) {
+		BasicConfigurator.configure(); // log4j warning
 		SpringApplication.run(FirstProjApplication.class, args);
 	}
 
