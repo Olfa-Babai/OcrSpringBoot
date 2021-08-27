@@ -2,6 +2,7 @@ package com.example.firstProj.controllers;
 
 import com.example.firstProj.donnees.OcrResult;
 import com.example.firstProj.services.OcrService;
+import com.itextpdf.text.DocumentException;
 
 import net.sourceforge.tess4j.TesseractException;
 
@@ -28,7 +29,7 @@ public class OcrController {
    
    
     @PostMapping("/upload")
-    public OcrResult upload(@RequestParam("file") MultipartFile file) throws IOException, TesseractException {
+    public OcrResult upload(@RequestParam("file") MultipartFile file) throws IOException, TesseractException, DocumentException {
         return ocrService.ocr(file);
     }
    
