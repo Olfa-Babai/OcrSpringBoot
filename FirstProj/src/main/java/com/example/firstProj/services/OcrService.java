@@ -25,30 +25,7 @@ public class OcrService {
        String text = tesseract.doOCR(convFile).trim();
        OcrResult ocrResult = new OcrResult();
        ocrResult.setResult(text);
-       System.out.println(text.substring(text.indexOf("Date")+6, text.indexOf("Date")+17)); // Date de la consultation
-       System.out.println(text.substring(text.indexOf("Prénom")+8, text.indexOf("Né")-1)); // Nom et prénom
-       System.out.println(text.substring(text.indexOf("Né(e)")+10, text.indexOf("Né(e)")+19)); // Date de naissance 
-       String exText=text.substring(text.indexOf("Ordonnance")+12);
-       
-       HashMap<String,String> meds = new HashMap<String,String>(); 
-       BufferedReader buff = new BufferedReader(new StringReader(exText));
-	   try {
-		   String line;
-		   while ((line = buff.readLine()) != null) {
-			   if(line.indexOf(".")!=-1) {
-				meds.put(line.substring(2, line.indexOf(".")),line.substring(line.indexOf(".")+1,line.length()-1));
-		        }
-			   }
-		   buff.close(); //Lecture finie donc on ferme le flux
-		   System.out.println(meds.toString());
-	   		}
-	   catch (IOException e)
-	   	  {
-		   System.out.println(e.getMessage());
-		   System.exit(1);
-		   }
-	   
-	   
+       savePdf(convFile,text);
        return ocrResult;
    }
  
@@ -61,8 +38,32 @@ public class OcrService {
        return convFile;
    }
    
-   public void savePdf(File f) {
-	  
+   public void savePdf(File file,String text) {
+	   //extraction des données : 
+	   String dateConsultation=text.substring(text.indexOf("Date")+6, text.indexOf("Date")+17); // Date de la consultation
+       String nomEtPrenom=text.substring(text.indexOf("Prénom")+8, text.indexOf("Né")-1); // Nom et prénom
+       String dateNaissance=text.substring(text.indexOf("Né(e)")+10, text.indexOf("Né(e)")+19); // Date de naissance 
+      
+       String exText=text.substring(text.indexOf("Ordonnance")+12);
+       //les médicaments :
+       HashMap<String,String> meds = new HashMap<String,String>(); 
+       BufferedReader buff = new BufferedReader(new StringReader(exText));
+	   try {
+		   String line;
+		   while ((line = buff.readLine()) != null) {
+			   if(line.indexOf(".")!=-1) {
+				meds.put(line.substring(2, line.indexOf(".")),line.substring(line.indexOf(".")+1,line.length()-1));
+		        }
+			   }
+		   buff.close();
+		   System.out.println(meds.toString());
+	   		}
+	   catch (IOException e)
+	   	  {
+		   System.out.println(e.getMessage());
+		   System.exit(1);
+		   }
+	   
    }
 }
 
