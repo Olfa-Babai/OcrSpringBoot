@@ -6,10 +6,14 @@ import net.sourceforge.tess4j.TesseractException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
- 
+
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
+import java.io.StringReader;
+import java.util.HashMap;
  
 @Service
 public class OcrService {
@@ -21,7 +25,30 @@ public class OcrService {
        String text = tesseract.doOCR(convFile).trim();
        OcrResult ocrResult = new OcrResult();
        ocrResult.setResult(text);
-       System.out.println(text.indexOf("Ordonnance"));
+       System.out.println(text.substring(text.indexOf("Date")+6, text.indexOf("Date")+17)); // Date de la consultation
+       System.out.println(text.substring(text.indexOf("Prénom")+8, text.indexOf("Né")-1)); // Nom et prénom
+       System.out.println(text.substring(text.indexOf("Né(e)")+10, text.indexOf("Né(e)")+19)); // Date de naissance 
+       String exText=text.substring(text.indexOf("Ordonnance")+12);
+       
+       HashMap<String,String> meds = new HashMap<String,String>(); 
+       BufferedReader buff = new BufferedReader(new StringReader(exText));
+	   try {
+		   String line;
+		   while ((line = buff.readLine()) != null) {
+			   if(line.indexOf(".")!=-1) {
+				meds.put(line.substring(2, line.indexOf(".")),line.substring(line.indexOf(".")+1,line.length()-1));
+		        }
+			   }
+		   buff.close(); //Lecture finie donc on ferme le flux
+		   System.out.println(meds.toString());
+	   		}
+	   catch (IOException e)
+	   	  {
+		   System.out.println(e.getMessage());
+		   System.exit(1);
+		   }
+	   
+	   
        return ocrResult;
    }
  
@@ -32,6 +59,10 @@ public class OcrService {
        fos.write(file.getBytes());
        fos.close();
        return convFile;
+   }
+   
+   public void savePdf(File f) {
+	  
    }
 }
 
