@@ -66,7 +66,6 @@ public class OcrService {
 		        }
 			   }
 		   buff.close();
-		   System.out.println(meds.toString());
 	   		}
 	   catch (IOException e)
 	   	  {
