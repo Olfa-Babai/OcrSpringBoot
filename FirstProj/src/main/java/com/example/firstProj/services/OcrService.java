@@ -123,6 +123,10 @@ public class OcrService {
       PdfPTable donnees2=new PdfPTable(2);
       donnees2.setWidthPercentage(100);
       
+      PdfPCell b5=new PdfPCell(new Phrase("Nom"));
+      donnees2.addCell(b5);
+      PdfPCell b6=new PdfPCell(new Phrase("Mode d'emploi"));
+      donnees2.addCell(b6);
       Iterator iterator = meds.entrySet().iterator();
       while (iterator.hasNext()) {
         Map.Entry mapentry = (Map.Entry) iterator.next();
