@@ -1,6 +1,7 @@
 package com.example.firstProj.services;
 
 import com.example.firstProj.donnees.OcrResult;
+import com.example.firstProj.donnees.Ordonnance;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Paragraph;
@@ -21,6 +22,11 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.StringReader;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -49,12 +55,26 @@ public class OcrService {
    }
    
    public void savePdf(File file,String text) throws FileNotFoundException, DocumentException {
-	   //extraction des données : 
-	   String dateConsultation=text.substring(text.indexOf("Date")+6, text.indexOf("Date")+17); // Date de la consultation
+	   Ordonnance ordonnance=new Ordonnance();
+	   //data :
+	   String dateConsultation=text.substring(text.indexOf("Date")+6, text.indexOf("Date")+17).trim(); // Date de la consultation
        String nomEtPrenom=text.substring(text.indexOf("Prénom")+8, text.indexOf("Né")-1); // Nom et prénom
-       String dateNaissance=text.substring(text.indexOf("Né(e)")+10, text.indexOf("Né(e)")+19); // Date de naissance 
+       String dateNaissance=text.substring(text.indexOf("Né(e)")+10, text.indexOf("Né(e)")+21).trim(); // Date de naissance 
       
        String exText=text.substring(text.indexOf("Ordonnance")+12);
+       
+       String nomMed=text.substring(0, text.indexOf("Date")-1);
+       // convert date formats : from String to Date
+       ZoneId defaultZoneId = ZoneId.systemDefault();
+       
+       LocalDate d1= LocalDate.of(Integer.parseInt(dateConsultation.substring(6, 10)),Integer.parseInt(dateConsultation.substring(3,5)),Integer.parseInt(dateConsultation.substring(0, 2)));
+       Date dateC= Date.from(d1.atStartOfDay(defaultZoneId).toInstant());
+       
+       LocalDate d2= LocalDate.of(Integer.parseInt(dateNaissance.substring(6, 10)),Integer.parseInt(dateNaissance.substring(3,5)),Integer.parseInt(dateNaissance.substring(0, 2)));
+       Date dateN= Date.from(d2.atStartOfDay(defaultZoneId).toInstant());
+       
+       System.out.println(dateN);
+
        //les médicaments :
        HashMap<String,String> meds = new HashMap<String,String>(); 
        BufferedReader buff = new BufferedReader(new StringReader(exText));
@@ -72,7 +92,7 @@ public class OcrService {
 		   System.out.println(e.getMessage());
 		   System.exit(1);
 		   }
-	   //enregistrement en pdf :
+	   // export as pdf
 	  String file_name=System.getProperty("user.home")+"\\Desktop\\ordonnanceOcr.pdf";
 	  Document document=new Document();
       PdfWriter.getInstance(document,new FileOutputStream(file_name));
@@ -92,7 +112,7 @@ public class OcrService {
       
       PdfPCell a1=new PdfPCell(new Phrase("Nom du médecin"));
       donnee.addCell(a1);
-      PdfPCell a2=new PdfPCell(new Phrase(text.substring(0, text.indexOf("Date")-1)));
+      PdfPCell a2=new PdfPCell(new Phrase(nomMed));
       donnee.addCell(a2);
       
       document.add(donnee);

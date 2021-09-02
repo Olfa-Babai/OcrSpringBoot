@@ -2,6 +2,7 @@ package com.example.firstProj.controllers;
 
 import com.example.firstProj.donnees.OcrResult;
 import com.example.firstProj.services.OcrService;
+import com.example.firstProj.services.OrdonnanceService;
 import com.itextpdf.text.DocumentException;
 
 import net.sourceforge.tess4j.TesseractException;
@@ -21,6 +22,8 @@ import java.io.IOException;
 public class OcrController {
    @Autowired
    private OcrService ocrService;
+   @Autowired
+   private OrdonnanceService ordonnanceService;
  /*
    @PostMapping("/upload")
    public String upload(@RequestParam("file") String file) throws IOException, TesseractException {
