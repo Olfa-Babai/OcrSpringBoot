@@ -21,6 +21,10 @@ public class Medicament {
 	@JoinColumn(name ="ordonnance_id")
 	private Ordonnance ordonnance;
 	
+	public Medicament() {
+		
+	}
+	
 	public Medicament(String n, String modeE) {
 		this.nom=n;
 		this.modeEmploi=modeE;
@@ -42,6 +46,5 @@ public class Medicament {
 	@Override
 	public String toString() {
 		return "Medicament [nom=" + nom + ", modeEmploi=" + modeEmploi + "]";
-	}
-	
+	}	
 }

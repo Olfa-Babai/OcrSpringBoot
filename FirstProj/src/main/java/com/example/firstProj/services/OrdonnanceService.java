@@ -17,9 +17,9 @@ public class OrdonnanceService implements IOrdonnanceService {
     private OrdonnanceRepository ordonnanceRepository;
 	
 	@Override
-	public void add(Ordonnance user) {
+	public void add(Ordonnance ordonnance) {
 		// TODO Auto-generated method stub
-		ordonnanceRepository.save(user);
+		ordonnanceRepository.save(ordonnance);
 	}
 
 	@Override
@@ -29,9 +29,9 @@ public class OrdonnanceService implements IOrdonnanceService {
 	}
 
 	@Override
-	public void update(Integer id, Ordonnance user) {
+	public void update(Integer id, Ordonnance ordonnance) {
 		// TODO Auto-generated method stub
-		ordonnanceRepository.save(user);
+		ordonnanceRepository.save(ordonnance);
 	}
 
 	@Override
@@ -47,9 +47,9 @@ public class OrdonnanceService implements IOrdonnanceService {
 	}
 
 	@Override
-	public Collection<? extends Ordonnance> findById(List<Integer> invites) {
+	public Collection<? extends Ordonnance> findById(List<Integer> ids) {
 		// TODO Auto-generated method stub
-		return 		ordonnanceRepository.findAllById(invites);
+		return 		ordonnanceRepository.findAllById(ids);
 	}
 
 }

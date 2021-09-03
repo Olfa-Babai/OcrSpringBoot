@@ -28,7 +28,19 @@ public class Ordonnance {
 	    @OneToMany(mappedBy = "ordonnance",cascade = CascadeType.ALL)
 	    private List<Medicament> medicaments=new ArrayList<>();
 	    
+	    public Ordonnance() {
+	    	
+	    }
 	    
+		public Ordonnance(String nomMedecin, Date dateConsultation, String nomPatient, Date dateNaissance, List<Medicament> medicaments) 
+		{
+			this.nomMedecin = nomMedecin;
+			this.dateConsultation = dateConsultation;
+			this.nomPatient = nomPatient;
+			this.dateNaissance = dateNaissance;
+			this.medicaments = medicaments;
+		}
+
 		public int getId() {
 			return id;
 		}
@@ -68,5 +80,15 @@ public class Ordonnance {
 		public void setDateNaissance(Date dateNaissance) {
 			this.dateNaissance = dateNaissance;
 		}
+
+		public List<Medicament> getMedicaments() {
+			return medicaments;
+		}
+
+		public void setMedicaments(List<Medicament> medicaments) {
+			this.medicaments = medicaments;
+		}
+		
+		
 		
 }

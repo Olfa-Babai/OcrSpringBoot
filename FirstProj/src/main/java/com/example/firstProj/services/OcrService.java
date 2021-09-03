@@ -1,6 +1,6 @@
 package com.example.firstProj.services;
 
-import com.example.firstProj.donnees.OcrResult;
+import com.example.firstProj.donnees.*;
 import com.example.firstProj.donnees.Ordonnance;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
@@ -26,22 +26,29 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
  
 @Service
 public class OcrService {
    @Autowired
    private Tesseract tesseract;
+   
+   @Autowired
+   private OrdonnanceService ordonnanceService;
  
    public OcrResult ocr(MultipartFile file) throws IOException, TesseractException, DocumentException {
        File convFile = convert(file);
        String text = tesseract.doOCR(convFile).trim();
        OcrResult ocrResult = new OcrResult();
        ocrResult.setResult(text);
-       savePdf(convFile,text);
+       //pdf + bdd
+       Ordonnance o=savePdf(convFile,text);
+       ordonnanceService.add(o);
        return ocrResult;
    }
  
@@ -54,7 +61,7 @@ public class OcrService {
        return convFile;
    }
    
-   public void savePdf(File file,String text) throws FileNotFoundException, DocumentException {
+   public Ordonnance savePdf(File file,String text) throws FileNotFoundException, DocumentException {
 	   Ordonnance ordonnance=new Ordonnance();
 	   //data :
 	   String dateConsultation=text.substring(text.indexOf("Date")+6, text.indexOf("Date")+17).trim(); // Date de la consultation
@@ -159,6 +166,24 @@ public class OcrService {
            
       document.close();
       
+      // ordonnance implementation
+      ordonnance.setDateConsultation(dateC);
+      ordonnance.setDateNaissance(dateN);
+      ordonnance.setNomMedecin(nomMed);
+      ordonnance.setNomPatient(nomEtPrenom);
+      
+      List<Medicament> m=new ArrayList<>();
+      Iterator i = meds.entrySet().iterator();
+      while (i.hasNext()) {
+      Map.Entry mapentry = (Map.Entry) i.next();
+        Medicament med=new Medicament();
+        med.setNom(mapentry.getKey()+"");
+        med.setModeEmploi(mapentry.getValue()+"");
+        m.add(med);
+      }
+        ordonnance.setMedicaments(m);
+        System.out.println(ordonnance.getMedicaments());
+        return ordonnance;
    }
    
 }
