@@ -25,7 +25,8 @@ public class Ordonnance {
    //  @Column(unique = true)
 	    private String nomPatient;
 	    private Date dateNaissance;
-	    @OneToMany(mappedBy = "ordonnance",cascade = CascadeType.ALL)
+	    @OneToMany(cascade = CascadeType.ALL)
+		@JoinColumn(name ="ordonnance_id", referencedColumnName ="id")
 	    private List<Medicament> medicaments=new ArrayList<>();
 	    
 	    public Ordonnance() {

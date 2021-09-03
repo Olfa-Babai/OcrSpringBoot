@@ -17,9 +17,6 @@ public class Medicament {
 	private int id;
 	private String nom;
 	private String modeEmploi;
-	@ManyToOne
-	@JoinColumn(name ="ordonnance_id")
-	private Ordonnance ordonnance;
 	
 	public Medicament() {
 		
