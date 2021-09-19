@@ -18,16 +18,19 @@ public class Utilisateur {
 
 	private String adresseEmail;
 	
+	private String role;
+	
 	private String mdp;
 	
 	public Utilisateur() {
 		
 	}
 
-	public Utilisateur(String nom, String prenom, String adresseEmail, String mdp) {
+	public Utilisateur(String nom, String prenom, String role, String adresseEmail, String mdp) {
 		super();
 		this.nom = nom;
 		this.prenom = prenom;
+		this.role=role;
 		this.adresseEmail = adresseEmail;
 		this.mdp = mdp;
 	}
@@ -58,6 +61,14 @@ public class Utilisateur {
 
 	public String getAdresseEmail() {
 		return adresseEmail;
+	}
+
+	public String getRole() {
+		return role;
+	}
+
+	public void setRole(String role) {
+		this.role = role;
 	}
 
 	public void setAdresseEmail(String adresseEmail) {

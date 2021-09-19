@@ -1,8 +1,10 @@
 package com.example.firstProj.controllers;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,7 +26,7 @@ public class UtilisateurController {
 	IUtilisateurService utilisateurService ; 
 
 	@PostMapping("/ajouter")
-	public Utilisateur  ajouterUtilisateur(@RequestBody Utilisateur user) {
+	public Utilisateur ajouterUtilisateur(@RequestBody Utilisateur user) {
 		utilisateurService.add(user);
 		return user;
 	}
@@ -35,11 +37,16 @@ public class UtilisateurController {
 	}
 
 	@GetMapping("/{id}")
-	public Utilisateur findById(@PathVariable Integer id)
+	public Optional<Utilisateur> findById(@PathVariable Integer id)
 	{
-		return 		utilisateurService.findById(id);
+		return 	utilisateurService.findById(id);
 	}
-
+	
+	@GetMapping("tri/{pos}")
+	public List<Utilisateur> tri(@PathVariable Integer pos){
+		return 	utilisateurService.triUtilisateur(pos);
+	}
+	
 	@DeleteMapping("/supprimer/{id}")
 	public void supprimer(@PathVariable Integer id) {
 		utilisateurService.delete(id);
@@ -49,4 +56,13 @@ public class UtilisateurController {
         utilisateurService.update(id,user);
 		return user;		
 	}
+	@GetMapping("/verif/{adresseEmail}/{mdp}")
+	public Utilisateur verifUtilisateur(@PathVariable String adresseEmail, @PathVariable String mdp ) {
+       return utilisateurService.verifUtilisateur(adresseEmail, mdp);
+		
+	}
+	@GetMapping("/researchu/{mot}")
+	public List<Utilisateur> researchUtilisateur(@PathVariable String mot) {
+         return utilisateurService.researchUser(mot);
+	}	
 }
