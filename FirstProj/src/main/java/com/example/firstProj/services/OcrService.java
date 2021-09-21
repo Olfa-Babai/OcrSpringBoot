@@ -41,7 +41,7 @@ public class OcrService {
    @Autowired
    private OrdonnanceService ordonnanceService;
  
-   public OcrResult ocr(MultipartFile file) throws IOException, TesseractException, DocumentException {
+   public String ocr(MultipartFile file) throws IOException, TesseractException, DocumentException {
        File convFile = convert(file);
        String text = tesseract.doOCR(convFile).trim();
        OcrResult ocrResult = new OcrResult();
@@ -49,7 +49,7 @@ public class OcrService {
        //pdf + bdd
        Ordonnance o=savePdf(convFile,text);
        ordonnanceService.add(o);
-       return ocrResult;
+       return ocrResult.toString();
    }
  
    public static File convert(MultipartFile file) throws IOException {

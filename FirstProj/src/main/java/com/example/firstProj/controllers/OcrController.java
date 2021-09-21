@@ -32,7 +32,7 @@ public class OcrController {
    private OcrService ocrService;  
    
     @PostMapping("/upload")
-    public OcrResult upload(@RequestParam("file") MultipartFile file) throws IOException, TesseractException, DocumentException {
+    public String upload(@RequestParam("file") MultipartFile file) throws IOException, TesseractException, DocumentException {
         return ocrService.ocr(file);
     }
     
