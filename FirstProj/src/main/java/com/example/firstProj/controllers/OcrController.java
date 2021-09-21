@@ -33,35 +33,5 @@ public class OcrController {
     public OcrResult upload(@RequestParam("file") MultipartFile file) throws IOException, TesseractException, DocumentException {
         return ocrService.ocr(file);
     }
-    /*
-    @GetMapping("/getmeds/{id}")
-    public List<Medicament> geMeds(@PathVariable int id){
-        return ordonnanceService.getMeds(id);
-    }
     
-    @GetMapping("/afficher")
-    public List<Ordonnance> findAll(){
-        return ordonnanceService.findALL();
-    }
-    
-    @GetMapping("/{id}")
-    public Optional<Ordonnance> findById(@PathVariable int id){
-        return ordonnanceService.findById(id);
-    }
-    
-    @GetMapping("/trio/{pos}")
-    public List<Ordonnance> triOrdonnance(@PathVariable int pos){
-    	return ordonnanceService.triOrdonnance(pos);
-    }
-    
-    @GetMapping("/researcho/{mot}")
-	public List<Ordonnance> researchOrdonnance(@PathVariable String mot) {
-         return ordonnanceService.researchOrdonnance(mot);
-	}	
-    
-    @DeleteMapping("/supprimer/{id}")
-    public void delete(@PathVariable int id){
-        ordonnanceService.delete(id);
-    }
-    */
 }

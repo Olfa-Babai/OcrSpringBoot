@@ -109,5 +109,28 @@ public class UtilisateurService implements IUtilisateurService {
 		return usUpdated;
 	}
 	
+	@Override
+	public List<Utilisateur> getAdmins() {
+		List<Utilisateur> us=this.findALL();
+		List<Utilisateur> usUpdated = new ArrayList<>();
+		for (Utilisateur u : us) {
+			if(u.getRole().equalsIgnoreCase("admin")) {
+				usUpdated.add(u);
+			}
+		}
+		return usUpdated;
+	}
+	
+	@Override
+	public List<Utilisateur> getSusers() {
+		List<Utilisateur> us=this.findALL();
+		List<Utilisateur> usUpdated = new ArrayList<>();
+		for (Utilisateur u : us) {
+			if(u.getRole().equalsIgnoreCase("suser")) {
+				usUpdated.add(u);
+			}
+			}
+		return usUpdated;
+	}
 
 }

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,7 +25,7 @@ import com.example.firstProj.services.*;
 public class UtilisateurController {
 	@Autowired
 	IUtilisateurService utilisateurService ; 
-
+	
 	@PostMapping("/ajouter")
 	public Utilisateur ajouterUtilisateur(@RequestBody Utilisateur user) {
 		utilisateurService.add(user);
@@ -51,7 +52,9 @@ public class UtilisateurController {
 	public void supprimer(@PathVariable Integer id) {
 		utilisateurService.delete(id);
 	}
-	@PostMapping("/maj/{id}")
+
+	@CrossOrigin(origins = "http://localhost:4200")
+	@PutMapping("/maj/{id}")
 	public Utilisateur update(@RequestBody Utilisateur user,@PathVariable Integer id ) {
         utilisateurService.update(id,user);
 		return user;		
@@ -65,4 +68,14 @@ public class UtilisateurController {
 	public List<Utilisateur> researchUtilisateur(@PathVariable String mot) {
          return utilisateurService.researchUser(mot);
 	}	
+	@GetMapping("/admins")
+	public List<Utilisateur> admins() {
+         return utilisateurService.getAdmins();
+	}	
+	@GetMapping("/susers")
+	public List<Utilisateur> susuers() {
+         return utilisateurService.getSusers();
+	}	
+	
+	
 }

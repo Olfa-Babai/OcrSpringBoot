@@ -18,5 +18,7 @@ public interface IUtilisateurService {
 	public Optional<Utilisateur> findById(Integer id );
 	public Collection<? extends Utilisateur> findById(List<Integer> invites);
 	public List<Utilisateur> researchUser(String mot);
+	List<Utilisateur> getAdmins();
+	List<Utilisateur> getSusers();
 
 }
